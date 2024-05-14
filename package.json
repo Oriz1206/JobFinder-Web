@@ -1,0 +1,16 @@
+{
+  "name": "jobfinder-web",
+  "version": "1.0.0",
+  "description": "<center>\r <span style=\"font-size: 24px;\">KLTN</span>\r </center>",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.3.1"
+  }
+}
