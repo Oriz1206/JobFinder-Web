@@ -213,3 +213,10 @@ export const submit = styled.div`
     gap: 30px;
     align-items: center;
 `;
+
+export const gap = styled.div`
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px
+`;

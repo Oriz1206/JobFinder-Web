@@ -1,20 +1,21 @@
 import React from "react";
 import * as Components from './Components';
 import { useNavigate } from "react-router-dom";
-
+import { useRole } from './Role';
 
 function SignUp() {
-    const [SignUpHere, toggle] = React.useState(true);
+    const { role, toggleRole } = useRole();
     const navigate = useNavigate();
+
     const ClickSign = () => {
         navigate("/login");
-      };
-    return(
+    };
+
+    return (
         <Components.Container>
-            <Components.SeekerContainer ChangeRole={SignUpHere}>
+            <Components.SeekerContainer ChangeRole={role}>
                 <Components.Form>
                     <Components.Title>Job seeker</Components.Title>
-
                     <Components.Paragraph>
                         <Components.Input type='username' placeholder='User name' />
                         <Components.Input type='Phonenumber' placeholder='Phone number' />
@@ -27,11 +28,10 @@ function SignUp() {
                         <Components.LoginButton onClick={ClickSign}>Login</Components.LoginButton>
                         <Components.SignUpButton>SignUp</Components.SignUpButton>
                     </Components.submit>
-                    
                 </Components.Form>
             </Components.SeekerContainer>
 
-            <Components.RecruiterContainer ChangeRole={SignUpHere}>
+            <Components.RecruiterContainer ChangeRole={role}>
                 <Components.Form>
                     <Components.Title>Recruiter</Components.Title>
                     <Components.Paragraph>
@@ -49,33 +49,27 @@ function SignUp() {
                 </Components.Form>
             </Components.RecruiterContainer>
 
-            <Components.OverlayContainer ChangeRole={SignUpHere}>
-                <Components.SignUpOverlay ChangeRole={SignUpHere}>
+            <Components.OverlayContainer ChangeRole={role}>
+                <Components.SignUpOverlay ChangeRole={role}>
+                    <Components.LeftOverlayPanel ChangeRole={role}>
+                        <Components.Title2>Welcome Recruiter!</Components.Title2>
+                        <Components.Paragraph>Let's start recruiting!</Components.Paragraph>
+                        <Components.SignUpGhostButton onClick={() => toggleRole(true)}>
+                            SignUp Here
+                        </Components.SignUpGhostButton>
+                    </Components.LeftOverlayPanel>
 
-                <Components.LeftOverlayPanel ChangeRole={SignUpHere}>
-                    <Components.Title2>Welcome Recruiter!</Components.Title2>
-                    <Components.Paragraph>
-                        Let's start recruiting!
-                    </Components.Paragraph>
-                    <Components.SignUpGhostButton onClick={() => toggle(true)}>
-                        SignUp Here
-                    </Components.SignUpGhostButton>
-                </Components.LeftOverlayPanel>
-
-                <Components.RightOverlayPanel ChangeRole={SignUpHere}>
-                    <Components.Title2>Hello, Job Seeker!</Components.Title2>
-                    <Components.Paragraph>
-                        Let's start and we'll looking a job for you!
-                    </Components.Paragraph>
-                    <Components.SignUpGhostButton onClick={() => toggle(false)}>
-                        SignUp Here
-                    </Components.SignUpGhostButton> 
-                </Components.RightOverlayPanel>
+                    <Components.RightOverlayPanel ChangeRole={role}>
+                        <Components.Title2>Hello, Job Seeker!</Components.Title2>
+                        <Components.Paragraph>Let's start and we'll looking a job for you!</Components.Paragraph>
+                        <Components.SignUpGhostButton onClick={() => toggleRole(false)}>
+                            SignUp Here
+                        </Components.SignUpGhostButton>
+                    </Components.RightOverlayPanel>
                 </Components.SignUpOverlay>
             </Components.OverlayContainer>
-
         </Components.Container>
-    )
+    );
 }
 
 export default SignUp;
