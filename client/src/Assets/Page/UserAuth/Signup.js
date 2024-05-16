@@ -1,28 +1,59 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import * as Components from './Components';
 import { useNavigate } from "react-router-dom";
 import { useRole } from './Role';
-import { auth } from '../../../Firebase'
+import { auth } from '../../../Firebase';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
+import { validate, handleInputValidation } from './validation';
 
 function SignUp() {
     const { role, toggleRole } = useRole();
     const navigate = useNavigate();
-    const [ phone, setPhone ] = useState("")
-    const [ username, setUsername ] = useState("")
-    const [ address, setAddress ] = useState("")
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
-    const [ rePassword, setRePassword ] = useState("")
-    const signup = (e) =>{
+    const [values, setValues] = useState({
+        phone: "",
+        username: "",
+        address: "",
+        email: "",
+        password: "",
+        rePassword: ""
+    });
+    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        setValues({
+            phone: "",
+            username: "",
+            address: "",
+            email: "",
+            password: "",
+            rePassword: ""
+        });
+        setErrors({});
+    }, [role]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setValues({ ...values, [name]: value });
+        handleInputValidation("signup", e, { ...values, [name]: value });
+    };
+
+    const signup = (e) => {
         e.preventDefault();
-        createUserWithEmailAndPassword(auth, email, password).then((userCredential) =>{
-            console.log(userCredential)
-        }).catch((error) => {
-            console.log(error)
-        })
-    }
+        const validationErrors = validate("signup", values);
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+        } else {
+            setErrors({});
+            createUserWithEmailAndPassword(auth, values.email, values.password)
+                .then((userCredential) => {
+                    console.log(userCredential);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    };
+
     const ClickSign = () => {
         navigate("/login");
     };
@@ -33,16 +64,64 @@ function SignUp() {
                 <Components.Form onSubmit={signup}>
                     <Components.Title>Job seeker</Components.Title>
                     <Components.Paragraph>
-                        <Components.Input type='username' placeholder='User name' value={username} onChange={(e) => setUsername(e.target.value)}/>
-                        <Components.Input type='Phonenumber' placeholder='Phone number' value={phone} onChange={(e) => setPhone(e.target.value)}/>
-                        <Components.Input type='address' placeholder='Address' value={address} onChange={(e) => setAddress(e.target.value)}/>
-                        <Components.Input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        <Components.Input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}/>
-                        <Components.Input type='re-password' placeholder='Re-enter password' value={rePassword} onChange={(e) => setRePassword(e.target.value)}/>
+                        <Components.Input
+                            type="text"
+                            placeholder="User name"
+                            value={values.username}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="username"
+                        />
+                        <Components.Input
+                            type="tel"
+                            placeholder="Phone number"
+                            value={values.phone}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="phone"
+                        />
+                        <Components.Input
+                            type="text"
+                            placeholder="Address"
+                            value={values.address}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="address"
+                        />
+                        <Components.Input
+                            type="email"
+                            placeholder="Email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="email"
+                        />
+                        <Components.Input
+                            type="password"
+                            placeholder="Password"
+                            value={values.password}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="password"
+                        />
+                        <Components.Input
+                            type="password"
+                            placeholder="Re-enter password"
+                            value={values.rePassword}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="rePassword"
+                        />
                     </Components.Paragraph>
                     <Components.submit>
                         <Components.LoginButton onClick={ClickSign}>Login</Components.LoginButton>
-                        <Components.SignUpButton type="submit" >SignUp</Components.SignUpButton>
+                        <Components.SignUpButton type="submit">SignUp</Components.SignUpButton>
                     </Components.submit>
                 </Components.Form>
             </Components.SeekerContainer>
@@ -51,16 +130,64 @@ function SignUp() {
                 <Components.Form onSubmit={signup}>
                     <Components.Title>Recruiter</Components.Title>
                     <Components.Paragraph>
-                        <Components.Input type='username' placeholder='User name' value={username} onChange={(e) => setUsername(e.target.value)}/>
-                        <Components.Input type='Phonenumber' placeholder='Hotline' value={phone} onChange={(e) => setPhone(e.target.value)}/>
-                        <Components.Input type='address' placeholder='Address' value={address} onChange={(e) => setAddress(e.target.value)}/>
-                        <Components.Input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        <Components.Input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}/>
-                        <Components.Input type='re-password' placeholder='Re-enter password' value={rePassword} onChange={(e) => setRePassword(e.target.value)}/>
+                        <Components.Input
+                            type="text"
+                            placeholder="User name"
+                            value={values.username}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="username"
+                        />
+                        <Components.Input
+                            type="tel"
+                            placeholder="Hotline"
+                            value={values.phone}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="phone"
+                        />
+                        <Components.Input
+                            type="text"
+                            placeholder="Address"
+                            value={values.address}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="address"
+                        />
+                        <Components.Input
+                            type="email"
+                            placeholder="Email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="email"
+                        />
+                        <Components.Input
+                            type="password"
+                            placeholder="Password"
+                            value={values.password}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="password"
+                        />
+                        <Components.Input
+                            type="password"
+                            placeholder="Re-enter password"
+                            value={values.rePassword}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="rePassword"
+                        />
                     </Components.Paragraph>
                     <Components.submit>
                         <Components.LoginButton onClick={ClickSign}>Login</Components.LoginButton>
-                        <Components.SignUpButton type="submit" >SignUp</Components.SignUpButton>
+                        <Components.SignUpButton type="submit">SignUp</Components.SignUpButton>
                     </Components.submit>
                 </Components.Form>
             </Components.RecruiterContainer>
@@ -70,17 +197,13 @@ function SignUp() {
                     <Components.LeftOverlayPanel ChangeRole={role}>
                         <Components.Title2>Welcome Recruiter!</Components.Title2>
                         <Components.Paragraph>Let's start recruiting!</Components.Paragraph>
-                        <Components.SignUpGhostButton onClick={() => toggleRole(true)}>
-                            SignUp Here
-                        </Components.SignUpGhostButton>
+                        <Components.SignUpGhostButton onClick={() => toggleRole(true)}>SignUp Here</Components.SignUpGhostButton>
                     </Components.LeftOverlayPanel>
 
                     <Components.RightOverlayPanel ChangeRole={role}>
                         <Components.Title2>Hello, Job Seeker!</Components.Title2>
                         <Components.Paragraph>Let's start and we'll looking a job for you!</Components.Paragraph>
-                        <Components.SignUpGhostButton onClick={() => toggleRole(false)}>
-                            SignUp Here
-                        </Components.SignUpGhostButton>
+                        <Components.SignUpGhostButton onClick={() => toggleRole(false)}>SignUp Here</Components.SignUpGhostButton>
                     </Components.RightOverlayPanel>
                 </Components.SignUpOverlay>
             </Components.OverlayContainer>

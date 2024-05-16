@@ -1,24 +1,55 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import './style.css'
 import * as Components from './Components';
 import { useNavigate } from "react-router-dom";
 import { useRole } from './Role';
 import { auth } from '../../../Firebase'
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { validate, handleInputValidation } from './validation';
+
 
 
 function Login () {
     const { role, toggleRole } = useRole();
     const navigate = useNavigate();
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
+    const [values, setValues] = useState({
+        email: "",
+        password: ""
+    });
+    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        setValues({
+            email: "",
+            password: ""
+        });
+        setErrors({});
+    }, [role]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setValues({ ...values, [name]: value });
+        handleInputValidation("login", e, { ...values, [name]: value });
+    };
+
     const login = (e) =>{
         e.preventDefault();
-        signInWithEmailAndPassword(auth, email, password).then((userCredential) =>{
-            console.log(userCredential)
-        }).catch((error) => {
-            console.log(error)
-        })
+        const validationErrors = validate("login", values);
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            console.log(validationErrors);
+
+        } else {
+            signInWithEmailAndPassword(auth, values.email, values.password)
+                .then((userCredential) => {
+                    console.log(userCredential);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+        
     }
 
     const ClickSign = () => {
@@ -34,9 +65,25 @@ function Login () {
                     <Components.Paragraph>
                         <Components.Title>Job seeker</Components.Title>
                     </Components.Paragraph>
-                    <Components.Input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    <Components.Input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
+                    <Components.Input
+                            type="email"
+                            placeholder="Email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="email"
+                        />
+                        <Components.Input
+                            type="password"
+                            placeholder="Password"
+                            value={values.password}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="password"
+                        />
+                        <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
 
                     <Components.submit>
                         <Components.SignUpButton onClick={ClickSign}>SignUp</Components.SignUpButton>
@@ -50,9 +97,25 @@ function Login () {
                     <Components.Paragraph>
                         <Components.Title>Recruiter</Components.Title>
                     </Components.Paragraph>
-                    <Components.Input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)}/>
-                    <Components.Input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
+                    <Components.Input
+                            type="email"
+                            placeholder="Email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="email"
+                        />
+                        <Components.Input
+                            type="password"
+                            placeholder="Password"
+                            value={values.password}
+                            onChange={handleChange}
+                            onInvalid={(e) => handleInputValidation(e, values)}
+                            required
+                            name="password"
+                        />
+                        <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
                     <Components.submit>
                         <Components.SignUpButton onClick={ClickSign}>SignUp</Components.SignUpButton>
                         <Components.LoginButton type="submit">Login</Components.LoginButton>
