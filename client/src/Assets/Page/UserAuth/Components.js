@@ -53,7 +53,7 @@ export const Form = styled.form`
 
 export const Title = styled.h1`
     font-weight: bold;
-    margin: 0;
+    margin: 0 0 10px;
 `;
 
 export const Title2 = styled.h2`
@@ -72,14 +72,15 @@ export const Input = styled.input`
 
 
 export const LoginButton = styled.button`
-    border-radius: 20px;
+    border-radius: 12px;
     border: 1px solid #FCA34D;
     background-color: #FCA34D;
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
-    padding: 12px 30px;
+    padding: 12px 44px;
     letter-spacing: 1px;
+    margin: 15px 0 15px;
     text-transform: uppercase;
     transition: transform 80ms ease-in;
     &:active{
@@ -91,14 +92,15 @@ export const LoginButton = styled.button`
 `;
 
 export const SignUpButton = styled.button`
-    border-radius: 20px;
+    border-radius: 12px;
     border: 1px solid #130160;
     background-color: #130160;
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
-    padding: 12px 30px;
+    padding: 12px 40px;
     letter-spacing: 1px;
+    margin: 15px 0 15px;
     text-transform: uppercase;
     transition: transform 80ms ease-in;
     &:active{
@@ -121,10 +123,19 @@ export const LoginGhostButton = styled(LoginButton)`
 
 export const Anchor = styled.a`
     color: #333;
-    font-size: 14px;
+    font-size: 12px;
     text-decoration: none;
-    margin: 15px 0;
+    align-self: flex-end;
+    span {
+        color: #6c63ff;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 `;
+
+
 export const OverlayContainer = styled.div`
     position: absolute;
     top: 0;
@@ -206,7 +217,7 @@ export const Paragraph = styled.p`
     margin: 20px 0 30px
 `;
 
-export const submit = styled.div`
+export const SideBySide = styled.div`
     display: flex;
     width: 100%;
     justify-content: center;

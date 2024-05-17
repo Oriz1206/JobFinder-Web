@@ -39,6 +39,8 @@ function SignUp() {
         handleInputValidation("signup", e, { ...values, [name]: value });
     };
 
+    
+
     const signup = (e) => {
         e.preventDefault();
         const validationErrors = validate("signup", values);
@@ -67,13 +69,12 @@ function SignUp() {
             <Components.SeekerContainer ChangeRole={role}>
                 <Components.Form onSubmit={signup}>
                     <Components.Title>Job seeker</Components.Title>
-                    <Components.Paragraph>
-                        <Components.Input
+                    <Components.Input
                             type="text"
                             placeholder="User name"
                             value={values.username}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="username"
                         />
@@ -82,7 +83,7 @@ function SignUp() {
                             placeholder="Phone number"
                             value={values.phone}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="phone"
                         />
@@ -91,7 +92,7 @@ function SignUp() {
                             placeholder="Address"
                             value={values.address}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="address"
                         />
@@ -100,7 +101,7 @@ function SignUp() {
                             placeholder="Email"
                             value={values.email}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="email"
                         />
@@ -109,7 +110,7 @@ function SignUp() {
                             placeholder="Password"
                             value={values.password}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="password"
                         />
@@ -118,28 +119,26 @@ function SignUp() {
                             placeholder="Re-enter password"
                             value={values.rePassword}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="rePassword"
                         />
-                    </Components.Paragraph>
-                    <Components.submit>
-                        <Components.LoginButton onClick={ClickSign}>Login</Components.LoginButton>
-                        <Components.SignUpButton type="submit">SignUp</Components.SignUpButton>
-                    </Components.submit>
+                    <Components.SignUpButton type="submit">SignUp</Components.SignUpButton>
+                    <Components.SideBySide>
+                        <Components.Anchor href='#'>Have an account? <span onClick={ClickSign}>Log in</span></Components.Anchor>                   
+                    </Components.SideBySide>                    
                 </Components.Form>
             </Components.SeekerContainer>
 
             <Components.RecruiterContainer ChangeRole={role}>
                 <Components.Form onSubmit={signup}>
                     <Components.Title>Recruiter</Components.Title>
-                    <Components.Paragraph>
-                        <Components.Input
+                    <Components.Input
                             type="text"
                             placeholder="User name"
                             value={values.username}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="username"
                         />
@@ -148,7 +147,7 @@ function SignUp() {
                             placeholder="Hotline"
                             value={values.phone}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="phone"
                         />
@@ -157,7 +156,7 @@ function SignUp() {
                             placeholder="Address"
                             value={values.address}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="address"
                         />
@@ -166,7 +165,7 @@ function SignUp() {
                             placeholder="Email"
                             value={values.email}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="email"
                         />
@@ -175,7 +174,7 @@ function SignUp() {
                             placeholder="Password"
                             value={values.password}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="password"
                         />
@@ -184,15 +183,14 @@ function SignUp() {
                             placeholder="Re-enter password"
                             value={values.rePassword}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("signup", e, values)}
                             required
                             name="rePassword"
                         />
-                    </Components.Paragraph>
-                    <Components.submit>
-                        <Components.LoginButton onClick={ClickSign}>Login</Components.LoginButton>
-                        <Components.SignUpButton type="submit">SignUp</Components.SignUpButton>
-                    </Components.submit>
+                    <Components.SignUpButton type="submit">SignUp</Components.SignUpButton>
+                    <Components.SideBySide>
+                        <Components.Anchor href='#'>Have an account? <span onClick={ClickSign}>Log in</span></Components.Anchor>                   
+                    </Components.SideBySide>                    
                 </Components.Form>
             </Components.RecruiterContainer>
 

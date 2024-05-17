@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import './style.css'
 import * as Components from './Components';
 import { useNavigate } from "react-router-dom";
-import { useRole } from './Role';
+import { useRole, useCurrentRole } from './Role';
 import { auth } from '../../../Firebase'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { validate, handleInputValidation } from './validation';
@@ -10,6 +10,7 @@ import { validate, handleInputValidation } from './validation';
 
 
 function Login () {
+    const currentRole = useCurrentRole();
     const { role, toggleRole } = useRole();
     const navigate = useNavigate();
     const [values, setValues] = useState({
@@ -62,47 +63,42 @@ function Login () {
         <Components.Container>
             <Components.SeekerContainer ChangeRole={role}>
                 <Components.Form onSubmit={login}>
-                    <Components.Paragraph>
-                        <Components.Title>Job seeker</Components.Title>
-                    </Components.Paragraph>
+                    <Components.Title>Job seeker</Components.Title>
                     <Components.Input
                             type="email"
                             placeholder="Email"
                             value={values.email}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("login", e, values)}
                             required
                             name="email"
                         />
                         <Components.Input
                             type="password"
-                            placeholder="Password"
+                            placeholder="Password" 
                             value={values.password}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("login", e, values)}
                             required
                             name="password"
                         />
-                        <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
-
-                    <Components.submit>
-                        <Components.SignUpButton onClick={ClickSign}>SignUp</Components.SignUpButton>
-                        <Components.LoginButton type="submit">Login</Components.LoginButton>
-                    </Components.submit>
+                    <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
+                    <Components.LoginButton type="submit">Login</Components.LoginButton>
+                    <Components.SideBySide>
+                        <Components.Anchor href='#'>Don't have an account? <span onClick={ClickSign}>Sign up</span></Components.Anchor>
+                    </Components.SideBySide>
                 </Components.Form>
             </Components.SeekerContainer>
 
             <Components.RecruiterContainer ChangeRole={role}>
                 <Components.Form onSubmit={login}>
-                    <Components.Paragraph>
-                        <Components.Title>Recruiter</Components.Title>
-                    </Components.Paragraph>
+                    <Components.Title>Recruiter</Components.Title>
                     <Components.Input
                             type="email"
                             placeholder="Email"
                             value={values.email}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("login", e, values)}
                             required
                             name="email"
                         />
@@ -111,15 +107,15 @@ function Login () {
                             placeholder="Password"
                             value={values.password}
                             onChange={handleChange}
-                            onInvalid={(e) => handleInputValidation(e, values)}
+                            onInvalid={(e) => handleInputValidation("login", e, values)}
                             required
                             name="password"
                         />
-                        <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
-                    <Components.submit>
-                        <Components.SignUpButton onClick={ClickSign}>SignUp</Components.SignUpButton>
-                        <Components.LoginButton type="submit">Login</Components.LoginButton>
-                    </Components.submit>
+                    <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
+                    <Components.LoginButton type="submit">Login</Components.LoginButton>
+                    <Components.SideBySide>
+                        <Components.Anchor href='#'>Don't have an account? <span onClick={ClickSign}>Sign up</span></Components.Anchor>
+                    </Components.SideBySide>
                 </Components.Form>
             </Components.RecruiterContainer>
 
