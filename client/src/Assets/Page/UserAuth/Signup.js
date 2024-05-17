@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import * as Components from './Components';
 import { useNavigate } from "react-router-dom";
-import { useRole } from './Role';
+import { useRole, useCurrentRole } from './Role';
 import { auth } from '../../../Firebase';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { validate, handleInputValidation } from './validation';
+import { saveUserData } from './saveUserData'
 
 function SignUp() {
+    const currentRole = useCurrentRole();
     const { role, toggleRole } = useRole();
     const navigate = useNavigate();
     const [values, setValues] = useState({
-        phone: "",
         username: "",
+        phone: "",
         address: "",
         email: "",
         password: "",
@@ -21,8 +23,8 @@ function SignUp() {
 
     useEffect(() => {
         setValues({
-            phone: "",
             username: "",
+            phone: "",
             address: "",
             email: "",
             password: "",
@@ -45,8 +47,10 @@ function SignUp() {
         } else {
             setErrors({});
             createUserWithEmailAndPassword(auth, values.email, values.password)
-                .then((userCredential) => {
+                .then(async (userCredential) => {
                     console.log(userCredential);
+                    await saveUserData(userCredential, values, currentRole);
+                    navigate("/login");
                 })
                 .catch((error) => {
                     console.log(error);

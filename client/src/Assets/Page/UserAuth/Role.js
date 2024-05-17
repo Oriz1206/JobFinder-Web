@@ -19,3 +19,12 @@ export const RoleProvider = ({ children }) => {
 export const useRole = () => {
     return useContext(RoleContext);
 };
+
+export const useCurrentRole = () => {
+    const { role } = useContext(RoleContext);
+    if (role == true){
+        return 'BUser'
+    }else if (role == false){
+        return 'NUser'
+    }
+};
