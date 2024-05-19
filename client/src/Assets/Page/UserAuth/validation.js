@@ -1,5 +1,8 @@
-export const validate = (type, values) => {
+import { checkEmailExists } from './AuthenticationCheck';
+
+export const validate = async (type, values) => {
     const errors = {};
+
     if (type === "signup") {
         if (!values.username) {
             errors.username = 'User name is required';
@@ -12,18 +15,28 @@ export const validate = (type, values) => {
         if (!values.address) {
             errors.address = 'Address is required';
         }
+
+        if (values.email) {
+            const emailExists = await checkEmailExists(values.email);
+        if (emailExists) {
+            errors.email = 'Email already registered';
+        }
+        }
     }
-    if (type === "login" || type === "signup") {
+
+    if (type === "login" || type === "signup" || type === "forgotpass") {
         if (!values.email) {
             errors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(values.email)) {
             errors.email = 'Email address is invalid';
         }
+
         if (!values.password) {
             errors.password = 'Password is required';
         } else if (values.password.length < 6) {
             errors.password = 'Password must be at least 6 characters';
         }
+
         if (type === "signup") {
             if (!values.rePassword) {
                 errors.rePassword = 'Re-enter password is required';
@@ -32,11 +45,12 @@ export const validate = (type, values) => {
             }
         }
     }
+
     return errors;
 };
 
-export const handleInputValidation = (type, e, values) => {
+export const handleInputValidation = async (type, e, values) => {
     const { name, value } = e.target;
-    const errors = validate(type, { ...values, [name]: value });
+    const errors = await validate(type, { ...values, [name]: value });
     e.target.setCustomValidity(errors[name] || '');
 };

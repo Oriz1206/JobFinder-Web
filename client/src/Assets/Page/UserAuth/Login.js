@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import './style.css'
 import * as Components from './Components';
 import { useNavigate } from "react-router-dom";
 import { useRole, useCurrentRole } from './Role';
@@ -13,11 +12,9 @@ function Login () {
     const currentRole = useCurrentRole();
     const { role, toggleRole } = useRole();
     const navigate = useNavigate();
-    const [values, setValues] = useState({
-        email: "",
-        password: ""
-    });
+    const [values, setValues] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({});
+
 
     useEffect(() => {
         setValues({
@@ -39,8 +36,6 @@ function Login () {
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
-            console.log(validationErrors);
-
         } else {
             signInWithEmailAndPassword(auth, values.email, values.password)
                 .then((userCredential) => {
@@ -48,6 +43,11 @@ function Login () {
                 })
                 .catch((error) => {
                     console.log(error);
+                    if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
+                        setErrors({ ...errors, password: 'Invalid password. Please try again.' });
+                    } else {
+                        setErrors({ ...errors, general: 'An error occurred. Please try again.' });
+          }
                 });
         }
         
@@ -55,6 +55,10 @@ function Login () {
 
     const ClickSign = () => {
         navigate("/signup");
+    };
+
+    const forgotpass = () => {
+        navigate("/login/forgotpassword");
     };
 
 
@@ -82,8 +86,13 @@ function Login () {
                             required
                             name="password"
                         />
-                    <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
-                    <Components.LoginButton type="submit">Login</Components.LoginButton>
+                    <Components.Anchor href='#' onClick={forgotpass}>Forgot your password?</Components.Anchor>
+                    <Components.Button 
+                        backgroundColor="#FCA34D"
+                        borderColor="#FCA34D"
+                        padding="12px 44px"
+                        type="submit"
+                        >Login</Components.Button>
                     <Components.SideBySide>
                         <Components.Anchor href='#'>Don't have an account? <span onClick={ClickSign}>Sign up</span></Components.Anchor>
                     </Components.SideBySide>
@@ -111,8 +120,13 @@ function Login () {
                             required
                             name="password"
                         />
-                    <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
-                    <Components.LoginButton type="submit">Login</Components.LoginButton>
+                    <Components.Anchor href='#' onClick={forgotpass}>Forgot your password?</Components.Anchor>
+                    <Components.Button 
+                        backgroundColor="#FCA34D"
+                        borderColor="#FCA34D"
+                        padding="12px 44px"
+                        type="submit"
+                        >Login</Components.Button>
                     <Components.SideBySide>
                         <Components.Anchor href='#'>Don't have an account? <span onClick={ClickSign}>Sign up</span></Components.Anchor>
                     </Components.SideBySide>
@@ -124,17 +138,17 @@ function Login () {
                     <Components.LeftOverlayPanel ChangeRole={role}>
                         <Components.Title2>Welcome Back Recruiter!</Components.Title2>
                         <Components.Paragraph>Glad to see you again!</Components.Paragraph>
-                        <Components.LoginGhostButton onClick={() => toggleRole(true)}>
+                        <Components.GhostButton onClick={() => toggleRole(true)}>
                             Login Here
-                        </Components.LoginGhostButton>
+                        </Components.GhostButton>
                     </Components.LeftOverlayPanel>
 
                     <Components.RightOverlayPanel ChangeRole={role}>
                         <Components.Title2>Hello, Job Seeker!</Components.Title2>
                         <Components.Paragraph>Welcome Back to your journey!</Components.Paragraph>
-                        <Components.LoginGhostButton onClick={() => toggleRole(false)}>
+                        <Components.GhostButton onClick={() => toggleRole(false)}>
                             Login Here
-                        </Components.LoginGhostButton>
+                        </Components.GhostButton>
                     </Components.RightOverlayPanel>
                 </Components.LoginOverlay>
             </Components.OverlayContainer>

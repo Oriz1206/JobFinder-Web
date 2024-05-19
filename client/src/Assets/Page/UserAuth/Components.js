@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+
 export const Container = styled.div`
     background-color: #fff;
     border-radius: 10px;
@@ -11,6 +12,20 @@ export const Container = styled.div`
     min-height: 520px;
 `;
 
+export const ForgotPasswordContainer = styled.div`
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 425px;
+    max-width: 100%;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+`;
 export const SeekerContainer = styled.div`
     position: absolute;
     top: 0;
@@ -70,53 +85,28 @@ export const Input = styled.input`
     width: 100%;
 `;
 
-
-export const LoginButton = styled.button`
-    border-radius: 12px;
-    border: 1px solid #FCA34D;
-    background-color: #FCA34D;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 12px 44px;
-    letter-spacing: 1px;
-    margin: 15px 0 15px;
-    text-transform: uppercase;
-    transition: transform 80ms ease-in;
-    &:active{
-        transform: scale(0.95);
-    }
-    &:focus {
-        outline: none;
-    }
+export const Button = styled.button`
+  border-radius: 12px;
+  border: 1px solid ${(props) => props.borderColor || '#FCA34D'};
+  background-color: ${(props) => props.backgroundColor || '#FCA34D'};
+  color: ${(props) => props.color || '#ffffff'};
+  font-size: ${(props) => props.fontSize || '12px'};
+  font-weight: bold;
+  padding: ${(props) => props.padding || '12px 40px'};
+  letter-spacing: 1px;
+  margin: ${(props) => props.margin || '15px 0'};
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  width: ${(props) => props.width || 'auto'};
+  &:active {
+    transform: scale(0.95);
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
-export const SignUpButton = styled.button`
-    border-radius: 12px;
-    border: 1px solid #130160;
-    background-color: #130160;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 12px 40px;
-    letter-spacing: 1px;
-    margin: 15px 0 15px;
-    text-transform: uppercase;
-    transition: transform 80ms ease-in;
-    &:active{
-        transform: scale(0.95);
-    }
-    &:focus {
-        outline: none;
-    }
-`;
-
-export const SignUpGhostButton = styled(SignUpButton)`
-    background-color: transparent;
-    border-color: #ffffff;
-`;
-
-export const LoginGhostButton = styled(LoginButton)`
+export const GhostButton = styled(Button)`
     background-color: transparent;
     border-color: #ffffff;
 `;
@@ -138,6 +128,7 @@ export const Anchor = styled.a`
 
 export const OverlayContainer = styled.div`
     position: absolute;
+    border-radius: 10px;
     top: 0;
     left: 50%;
     width: 50%;
@@ -229,5 +220,19 @@ export const gap = styled.div`
     font-weight: 100;
     line-height: 20px;
     letter-spacing: 0.5px;
-    margin: 20px 0 30px
+    margin: 20px 0 20px
+`;
+
+
+export const linebyline = styled.div`
+    width: 100%;
+    justify-content: center;
+    gap: 50px;
+`;
+
+export const Image = styled.img`
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 20px 0;
 `;

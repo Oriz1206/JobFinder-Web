@@ -11,6 +11,7 @@ function SignUp() {
     const currentRole = useCurrentRole();
     const { role, toggleRole } = useRole();
     const navigate = useNavigate();
+    const [, setErrors] = useState({});
     const [values, setValues] = useState({
         username: "",
         phone: "",
@@ -19,7 +20,6 @@ function SignUp() {
         password: "",
         rePassword: ""
     });
-    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         setValues({
@@ -33,17 +33,17 @@ function SignUp() {
         setErrors({});
     }, [role]);
 
-    const handleChange = (e) => {
+    const handleChange = async (e) => {
         const { name, value } = e.target;
         setValues({ ...values, [name]: value });
-        handleInputValidation("signup", e, { ...values, [name]: value });
+        await handleInputValidation("signup", e, { ...values, [name]: value });
     };
 
     
 
-    const signup = (e) => {
+    const signup = async (e) => {
         e.preventDefault();
-        const validationErrors = validate("signup", values);
+        const validationErrors = await validate("signup", values);
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
@@ -123,7 +123,12 @@ function SignUp() {
                             required
                             name="rePassword"
                         />
-                    <Components.SignUpButton type="submit">SignUp</Components.SignUpButton>
+                    <Components.Button 
+                        backgroundColor="#130160"
+                        borderColor="#130160"
+                        padding="12px 40px"
+                        type="submit"
+                        >SignUp</Components.Button>
                     <Components.SideBySide>
                         <Components.Anchor href='#'>Have an account? <span onClick={ClickSign}>Log in</span></Components.Anchor>                   
                     </Components.SideBySide>                    
@@ -187,7 +192,12 @@ function SignUp() {
                             required
                             name="rePassword"
                         />
-                    <Components.SignUpButton type="submit">SignUp</Components.SignUpButton>
+                    <Components.Button 
+                        backgroundColor="#130160"
+                        borderColor="#130160"
+                        padding="12px 40px"
+                        type="submit"
+                        >SignUp</Components.Button>
                     <Components.SideBySide>
                         <Components.Anchor href='#'>Have an account? <span onClick={ClickSign}>Log in</span></Components.Anchor>                   
                     </Components.SideBySide>                    
@@ -199,13 +209,13 @@ function SignUp() {
                     <Components.LeftOverlayPanel ChangeRole={role}>
                         <Components.Title2>Welcome Recruiter!</Components.Title2>
                         <Components.Paragraph>Let's start recruiting!</Components.Paragraph>
-                        <Components.SignUpGhostButton onClick={() => toggleRole(true)}>SignUp Here</Components.SignUpGhostButton>
+                        <Components.GhostButton onClick={() => toggleRole(true)}>SignUp Here</Components.GhostButton>
                     </Components.LeftOverlayPanel>
 
                     <Components.RightOverlayPanel ChangeRole={role}>
                         <Components.Title2>Hello, Job Seeker!</Components.Title2>
                         <Components.Paragraph>Let's start and we'll looking a job for you!</Components.Paragraph>
-                        <Components.SignUpGhostButton onClick={() => toggleRole(false)}>SignUp Here</Components.SignUpGhostButton>
+                        <Components.GhostButton onClick={() => toggleRole(false)}>SignUp Here</Components.GhostButton>
                     </Components.RightOverlayPanel>
                 </Components.SignUpOverlay>
             </Components.OverlayContainer>
